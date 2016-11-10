@@ -1,2 +1,3 @@
 # WebDict-Server
-Server side for WebDict
+Server side for WebDict implemented in Java
+
