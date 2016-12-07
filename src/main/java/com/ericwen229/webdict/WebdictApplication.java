@@ -9,4 +9,5 @@ public class WebdictApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WebdictApplication.class, args);
 	}
+
 }
