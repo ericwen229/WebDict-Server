@@ -21,14 +21,14 @@ public class Query {
 
     public void queryYoudao() {
         explanations.add(new Explanation("youdao", "success",
-                "en baidu " + word, "us baidu " + word,
-                "tr baidu " + word));
+                "en youdao " + word, "us youdao " + word,
+                "tr youdao " + word));
     }
 
     public void queryJinshan() {
         explanations.add(new Explanation("jinshan", "success",
-                "en baidu " + word, "us baidu " + word,
-                "tr baidu " + word));
+                "en jinshan " + word, "us jinshan " + word,
+                "tr jinshan " + word));
     }
 
     public String getWord() {
