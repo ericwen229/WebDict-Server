@@ -7,13 +7,15 @@ public class Explanation {
     private String enPhonetic;
     private String usPhonetic;
     private String translation;
+    private int likes;
 
-    public Explanation(String source, String status, String enPhonetic, String usPhonetic, String translation) {
+    public Explanation(String source, String status, String enPhonetic, String usPhonetic, String translation, int likes) {
         this.source = source;
         this.status = status;
         this.enPhonetic = enPhonetic;
         this.usPhonetic = usPhonetic;
         this.translation = translation;
+        this.likes = likes;
     }
 
     public String getSource() {
@@ -35,5 +37,7 @@ public class Explanation {
     public String getTranslation() {
         return translation;
     }
+
+    public int getLikes() { return likes; }
 
 }

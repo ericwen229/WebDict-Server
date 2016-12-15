@@ -22,7 +22,7 @@ public class Query {
     public void queryBaidu() {
         explanations.add(new Explanation("baidu", "success",
                 "en baidu " + word, "us baidu " + word,
-                "tr baidu " + word));
+                "tr baidu " + word, (int)(Math.random() * 100)));
     }
 
     public void queryYoudao() {
@@ -43,7 +43,6 @@ public class Query {
                 result.append(line);
             }
             String resultStr = result.toString();
-            System.out.println(resultStr);
             Pattern statusPattern = Pattern.compile("\"errorCode\":(\\d+)");
             Matcher statusMatcher = statusPattern.matcher(resultStr);
             if (statusMatcher.find()) {
@@ -81,13 +80,13 @@ public class Query {
         }
         explanations.add(new Explanation("youdao", status,
                 enPhonetic, usPhonetic,
-                translation));
+                translation, (int)(Math.random() * 100)));
     }
 
     public void queryJinshan() {
         explanations.add(new Explanation("jinshan", "success",
                 "en jinshan " + word, "us jinshan " + word,
-                "tr jinshan " + word));
+                "tr jinshan " + word, (int)(Math.random() * 100)));
     }
 
     public String getWord() {
