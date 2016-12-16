@@ -19,10 +19,66 @@ public class Query {
         explanations = new ArrayList<>();
     }
 
-    public void queryBaidu() {
-        explanations.add(new Explanation("baidu", "success",
-                "en baidu " + word, "us baidu " + word,
-                "tr baidu " + word, (int)(Math.random() * 100)));
+    public void queryHaici() {
+        if (word.length() == 0) {
+            return;
+        }
+        StringBuffer result = new StringBuffer();
+        BufferedReader in = null;
+        String status = "fail", enPhonetic = "", usPhonetic = "", translation = "";
+        try {
+            String url = "http://dict.cn/apis/dict3.php?skin=false&q=" + word;
+            URL realUrl = new URL(url);
+            URLConnection conn = realUrl.openConnection();
+            conn.connect();
+            in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result.append(line);
+            }
+            String resultStr = result.toString();
+
+            Pattern enPhPattern = Pattern.compile("英 <bdo>\\[([^\\]]+)");
+            Pattern usPhPattern = Pattern.compile("美 <bdo>\\[([^\\]]+)");
+            Pattern transPattern = Pattern.compile("<div id=\"exp\">(.+?)</div>");
+            Matcher enPhMatcher = enPhPattern.matcher(resultStr);
+            Matcher usPhMatcher = usPhPattern.matcher(resultStr);
+            Matcher transMatcher = transPattern.matcher(resultStr);
+            boolean success = false;
+            if (enPhMatcher.find()) {
+                enPhonetic = enPhMatcher.group(1);
+                success = true;
+            }
+            if (usPhMatcher.find()) {
+                usPhonetic = usPhMatcher.group(1);
+                success = true;
+            }
+            if (transMatcher.find()) {
+                translation = transMatcher.group(1);
+                success = true;
+            }
+            if (success) {
+                status = "success";
+                translation = translation.replace("<br />", ";");
+                translation = translation.trim();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            }
+            catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        explanations.add(new Explanation("haici", status,
+                enPhonetic, usPhonetic,
+                translation, (int)(Math.random() * 100)));
     }
 
     public void queryYoudao() {
@@ -61,8 +117,6 @@ public class Query {
                 if (transMatcher.find()) translation = transMatcher.group(1);
                 translation = translation.replace("\"", "");
                 translation = translation.replace(",", ";");
-            }
-            else {
             }
         }
         catch (Exception e) {
