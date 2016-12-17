@@ -91,7 +91,8 @@ public class Query {
         }
         StringBuffer result = new StringBuffer();
         BufferedReader in = null;
-        String status = "fail", enPhonetic = "", usPhonetic = "", translation = "";
+        String status = "fail", enPhonetic = "", usPhonetic = "";
+        StringBuffer translation = new StringBuffer();
         try {
             String url = "http://fanyi.youdao.com/openapi.do?keyfrom=EasyDictGenerator&key=1503487301&type=data&doctype=json&version=1.1&q=" + word;
             URL realUrl = new URL(url);
@@ -103,25 +104,20 @@ public class Query {
                 result.append(line);
             }
             String resultStr = result.toString();
-            Pattern statusPattern = Pattern.compile("\"errorCode\":(\\d+)");
-            Matcher statusMatcher = statusPattern.matcher(resultStr);
-            if (statusMatcher.find()) {
-                status = statusMatcher.group(1);
-            }
-            if (status.equals("0")) {
+            JSONObject resultJson = new JSONObject(resultStr);
+            int errCode = resultJson.getInt("errorCode");
+            if (errCode == 0) {
                 status = "success";
-                Pattern enPhPattern = Pattern.compile("\"uk-phonetic\":\"([^\"]+)");
-                Pattern usPhPattern = Pattern.compile("\"us-phonetic\":\"([^\"]+)");
-                Pattern transPattern = Pattern.compile("\"explains\":\\[([^\\]]+)");
-                Matcher enPhMatcher = enPhPattern.matcher(resultStr);
-                Matcher usPhMatcher = usPhPattern.matcher(resultStr);
-                Matcher transMatcher = transPattern.matcher(resultStr);
-                if (enPhMatcher.find()) enPhonetic = enPhMatcher.group(1);
-                if (usPhMatcher.find()) usPhonetic = usPhMatcher.group(1);
-                if (transMatcher.find()) translation = transMatcher.group(1);
-                translation = translation.replace("\"", "");
-                translation = translation.replace(",", ";");
-                translation = translation.replace("\\u2026", "...");
+                JSONObject basic = resultJson.getJSONObject("basic");
+                enPhonetic = basic.getString("uk-phonetic");
+                usPhonetic = basic.getString("us-phonetic");
+                JSONArray explains = basic.getJSONArray("explains");
+                for (int i = 0; i < explains.length(); ++ i) {
+                    if (i != 0) {
+                        translation.append(";");
+                    }
+                    translation.append(explains.getString(i));
+                }
             }
         }
         catch (Exception e) {
@@ -139,7 +135,7 @@ public class Query {
         }
         explanations.add(new Explanation("youdao", status,
                 enPhonetic, usPhonetic,
-                translation, (int)(Math.random() * 100)));
+                translation.toString(), (int)(Math.random() * 100)));
     }
 
     public void queryJinshan() {
