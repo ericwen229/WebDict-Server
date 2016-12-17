@@ -30,6 +30,7 @@ public class Query {
         StringBuffer result = new StringBuffer();
         BufferedReader in = null;
         String status = "fail", enPhonetic = "", usPhonetic = "", translation = "";
+        int like = 0;
         try {
             String url = "http://dict.cn/apis/dict3.php?skin=false&q=" + word;
             URL realUrl = new URL(url);
@@ -68,6 +69,7 @@ public class Query {
             }
         }
         catch (Exception e) {
+            status = "fail";
             e.printStackTrace();
         }
         finally {
@@ -80,9 +82,12 @@ public class Query {
                 e2.printStackTrace();
             }
         }
+        if (status.equals("success")) {
+            like = (int)(Math.random() * 100);
+        }
         explanations.add(new Explanation("haici", status,
                 enPhonetic, usPhonetic,
-                translation, (int)(Math.random() * 100)));
+                translation, like));
     }
 
     public void queryYoudao() {
@@ -93,6 +98,7 @@ public class Query {
         BufferedReader in = null;
         String status = "fail", enPhonetic = "", usPhonetic = "";
         StringBuffer translation = new StringBuffer();
+        int like = 0;
         try {
             String url = "http://fanyi.youdao.com/openapi.do?keyfrom=EasyDictGenerator&key=1503487301&type=data&doctype=json&version=1.1&q=" + word;
             URL realUrl = new URL(url);
@@ -121,6 +127,7 @@ public class Query {
             }
         }
         catch (Exception e) {
+            status = "fail";
             e.printStackTrace();
         }
         finally {
@@ -133,9 +140,12 @@ public class Query {
                 e2.printStackTrace();
             }
         }
+        if (status.equals("success")) {
+            like = (int)(Math.random() * 100);
+        }
         explanations.add(new Explanation("youdao", status,
                 enPhonetic, usPhonetic,
-                translation.toString(), (int)(Math.random() * 100)));
+                translation.toString(), like));
     }
 
     public void queryJinshan() {
@@ -146,6 +156,7 @@ public class Query {
         BufferedReader in = null;
         String status = "", enPhonetic = "", usPhonetic = "";
         StringBuffer translation = new StringBuffer();
+        int like = 0;
         try {
             String url = "http://dict-co.iciba.com/api/dictionary.php?key=FD186122ADD1932EDD67B5E84AF2D90A&type=json&w=" + word;
             URL realUrl = new URL(url);
@@ -194,9 +205,12 @@ public class Query {
                 e2.printStackTrace();
             }
         }
+        if (status.equals("success")) {
+            like = (int)(Math.random() * 100);
+        }
         explanations.add(new Explanation("jinshan", status,
                 enPhonetic, usPhonetic,
-                translation.toString(), (int)(Math.random() * 100)));
+                translation.toString(), like));
     }
 
     public String getWord() {
