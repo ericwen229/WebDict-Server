@@ -53,7 +53,7 @@
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20160810</version>
-		</dependency>git
+		</dependency>
 	</dependencies>
 
 	<build>
