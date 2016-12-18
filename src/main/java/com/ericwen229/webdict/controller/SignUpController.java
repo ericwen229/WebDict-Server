@@ -18,7 +18,7 @@ public class SignUpController {
     static final String PWD = "professional*";
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public Status signIn(@RequestParam(value = "username") String username,
+    public Status signUp(@RequestParam(value = "username") String username,
                          @RequestParam(value = "pwd") String password) {
         Connection conn = null;
         Statement stmt = null;

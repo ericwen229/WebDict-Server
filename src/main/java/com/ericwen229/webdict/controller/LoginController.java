@@ -18,7 +18,7 @@ public class LoginController {
     static final String PWD = "professional*";
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Status signIn(@RequestParam(value = "username") String username,
+    public Status login(@RequestParam(value = "username") String username,
                          @RequestParam(value = "pwd") String password) {
         Connection conn = null;
         Statement stmt = null;
