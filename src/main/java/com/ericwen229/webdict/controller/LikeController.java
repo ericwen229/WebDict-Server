@@ -33,12 +33,12 @@ public class LikeController {
             if (rs.next()) {
                 int num = rs.getInt(source);
                 if (dislike.equals("true")) {
-                    ++ num;
-                }
-                else {
                     -- num;
                 }
-                stmt.executeUpdate(String.format("UPDATE likes SET %s=%d WHERE word='%s'", source, num + 1, word));
+                else {
+                    ++ num;
+                }
+                stmt.executeUpdate(String.format("UPDATE likes SET %s=%d WHERE word='%s'", source, num, word));
             }
             else {
                 stmt.executeUpdate(String.format("INSERT INTO likes VALUES ('%s', 0, 0, 0)", word));
