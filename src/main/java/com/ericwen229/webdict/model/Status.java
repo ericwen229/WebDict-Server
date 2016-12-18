@@ -1,20 +1,26 @@
 package com.ericwen229.webdict.model;
 
-public class Like {
+public class Status {
 
     private String status;
+    private String msg;
 
-    public Like(boolean success) {
+    public Status(boolean success, String message) {
         if (success) {
             status = "success";
         }
         else {
             status = "fail";
         }
+        this.msg = message;
     }
 
     public String getStatus() {
         return status;
+    }
+
+    public String getMsg() {
+        return msg;
     }
 
 }

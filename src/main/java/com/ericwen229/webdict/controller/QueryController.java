@@ -23,6 +23,9 @@ public class QueryController {
         Connection conn = null;
         Statement stmt = null;
         int youdaoLike = 0, jinshanLike = 0, haiciLike = 0;
+        boolean insert = false;
+        Query q = new Query(word);
+
         try {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PWD);
@@ -35,8 +38,23 @@ public class QueryController {
                 haiciLike = rs.getInt("haici");
             }
             else {
+                insert = true;
+            }
+
+            if (!haici.equalsIgnoreCase("false")) {
+                q.queryHaici(haiciLike);
+            }
+            if (!youdao.equalsIgnoreCase("false")) {
+                q.queryYoudao(youdaoLike);
+            }
+            if (!jinshan.equalsIgnoreCase("false")) {
+                q.queryJinshan(jinshanLike);
+            }
+
+            if (q.success() && insert) {
                 stmt.executeUpdate(String.format("INSERT INTO likes VALUES ('%s', 0, 0, 0)", word));
             }
+
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -59,16 +77,6 @@ public class QueryController {
             }
         }
 
-        Query q = new Query(word);
-        if (!haici.equalsIgnoreCase("false")) {
-            q.queryHaici(haiciLike);
-        }
-        if (!youdao.equalsIgnoreCase("false")) {
-            q.queryYoudao(youdaoLike);
-        }
-        if (!jinshan.equalsIgnoreCase("false")) {
-            q.queryJinshan(jinshanLike);
-        }
         return q;
     }
 

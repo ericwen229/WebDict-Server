@@ -208,4 +208,13 @@ public class Query {
         return explanations;
     }
 
+    public boolean success() {
+        for (Explanation e : explanations) {
+            if (e.getStatus().equals("success")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

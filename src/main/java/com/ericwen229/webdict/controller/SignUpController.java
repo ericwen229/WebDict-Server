@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.*;
 
 @RestController
-public class LikeController {
+public class SignUpController {
 
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/webdict";
@@ -17,10 +17,9 @@ public class LikeController {
     static final String USER = "eric";
     static final String PWD = "professional*";
 
-    @RequestMapping(value = "/like", method = RequestMethod.POST)
-    public Status like(@RequestParam(value = "word") String word,
-                       @RequestParam(value = "source") String source,
-                       @RequestParam(value = "dislike", defaultValue = "false") String dislike) {
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public Status signIn(@RequestParam(value = "username") String username,
+                         @RequestParam(value = "pwd") String password) {
         Connection conn = null;
         Statement stmt = null;
         boolean success = true;
@@ -29,17 +28,13 @@ public class LikeController {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PWD);
             stmt = conn.createStatement();
-            word = word.replace(" ", "");
-            ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM likes WHERE word='%s' LIMIT 1", word));
+            ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM users WHERE username='%s' LIMIT 1", username));
             if (rs.next()) {
-                int num = rs.getInt(source);
-                if (dislike.equals("true")) {
-                    -- num;
-                }
-                else {
-                    ++ num;
-                }
-                stmt.executeUpdate(String.format("UPDATE likes SET %s=%d WHERE word='%s'", source, num, word));
+                success = false;
+                message = "user already exists";
+            }
+            else {
+                stmt.executeUpdate(String.format("INSERT INTO users VALUES ('%s', '%s', FALSE)", username, password));
             }
         }
         catch (Exception e) {
