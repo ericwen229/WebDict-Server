@@ -3,10 +3,7 @@ package com.ericwen229.webdict.controller;
 import com.ericwen229.webdict.model.Query;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 @RestController
 public class QueryController {
@@ -43,6 +40,23 @@ public class QueryController {
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                if (stmt != null) {
+                    conn.close();
+                }
+            }
+            catch (SQLException se) {
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+            catch (SQLException se) {
+                se.printStackTrace();
+            }
         }
 
         Query q = new Query(word);
