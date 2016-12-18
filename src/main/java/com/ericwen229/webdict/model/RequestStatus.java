@@ -1,11 +1,11 @@
 package com.ericwen229.webdict.model;
 
-public class Status {
+public class RequestStatus {
 
     private String status;
     private String msg;
 
-    public Status(boolean success, String message) {
+    public RequestStatus(boolean success, String message) {
         if (success) {
             status = "success";
         }
