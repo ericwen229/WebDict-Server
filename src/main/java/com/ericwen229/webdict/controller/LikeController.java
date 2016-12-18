@@ -40,10 +40,6 @@ public class LikeController {
                 }
                 stmt.executeUpdate(String.format("UPDATE likes SET %s=%d WHERE word='%s'", source, num, word));
             }
-            else {
-                stmt.executeUpdate(String.format("INSERT INTO likes VALUES ('%s', 0, 0, 0)", word));
-                stmt.executeUpdate(String.format("UPDATE likes SET %s=%d WHERE word='%s'", source, 1, word));
-            }
         }
         catch (Exception e) {
             success = false;
