@@ -30,7 +30,13 @@ public class UserController {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT username FROM users");
             while (rs.next()) {
-                list.addUser(rs.getString("username"));
+                boolean online = rs.getBoolean("online");
+                if (online) {
+                    list.addOnlineUser(rs.getString("username"));
+                }
+                else {
+                    list.addOfflineUser(rs.getString("username"));
+                }
             }
         }
         catch (Exception e) {

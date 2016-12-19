@@ -5,14 +5,19 @@ import java.util.List;
 
 public class UserList {
 
-    private List<String> users = new ArrayList<>();
+    private List<String> onlineUsers = new ArrayList<>();
+    private List<String> offlineUsers = new ArrayList<>();
 
-    public void addUser(String user) {
-        users.add(user);
+    public void addOnlineUser(String user) {
+        onlineUsers.add(user);
     }
 
-    public List<String> getUsers() {
-        return users;
+    public void addOfflineUser(String user) { offlineUsers.add(user); }
+
+    public List<String> getOnlineUsers() {
+        return onlineUsers;
     }
+
+    public List<String> getOfflineUsers() { return offlineUsers; }
 
 }
