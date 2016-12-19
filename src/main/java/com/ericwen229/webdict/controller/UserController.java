@@ -28,7 +28,7 @@ public class UserController {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PWD);
             stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT username FROM users");
+            ResultSet rs = stmt.executeQuery("SELECT username, online FROM users");
             while (rs.next()) {
                 boolean online = rs.getBoolean("online");
                 if (online) {
