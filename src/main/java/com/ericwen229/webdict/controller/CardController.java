@@ -86,6 +86,7 @@ public class CardController {
                         rs.getBoolean("haici"));
                 list.addCard(card);
             }
+            stmt.executeUpdate(String.format("DELETE FROM cards WHERE toUser='%s'", username));
         }
         catch (Exception e) {
             e.printStackTrace();
